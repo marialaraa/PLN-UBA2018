@@ -28,6 +28,7 @@ class NGramGenerator(object):
         prev_tokens = ['<s>'] * (n - 1)
         token = self.generate_token(tuple(prev_tokens))
         while token != '</s>':
+            pass
             # WORK HERE!!
 
         return sent
@@ -45,5 +46,5 @@ class NGramGenerator(object):
         r = random.random()
         probs = self._sorted_probs[prev_tokens]
         # WORK HERE!!
-
+        token = None
         return token

@@ -13,12 +13,14 @@ Options:
   -o <file>     Output model file.
   -h --help     Show this screen.
 """
-from docopt import docopt
+import os
 import pickle
 
-from nltk.corpus import gutenberg
-
+from docopt import docopt
 from languagemodeling.ngram import NGram
+
+from nltk.corpus import PlaintextCorpusReader
+
 # from languagemodeling.ngram import NGram, AddOneNGram, InterpolatedNGram
 
 
@@ -27,14 +29,14 @@ from languagemodeling.ngram import NGram
 #     'addone': AddOneNGram,
 #     'inter': InterpolatedNGram,
 # }
-
-
 if __name__ == '__main__':
     opts = docopt(__doc__)
 
     # load the data
-    # WORK HERE!! LOAD YOUR TRAINING CORPUS
-    sents = gutenberg.sents(['austen-emma.txt', 'austen-sense.txt'])
+    root = "custom_corpus/Outlander"
+
+    books_filename = os.listdir(root)
+    sents = PlaintextCorpusReader(root, books_filename).sents()
 
     # train the model
     n = int(opts['-n'])

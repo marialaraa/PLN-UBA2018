@@ -1,10 +1,12 @@
 # https://docs.python.org/3/library/collections.html
+
 from collections import defaultdict
+from itertools import repeat
+
 import math
 
 
 class LanguageModel(object):
-
     def sent_prob(self, sent):
         """Probability of a sentence. Warning: subject to underflow problems.
 
@@ -39,7 +41,6 @@ class LanguageModel(object):
 
 
 class NGram(LanguageModel):
-
     def __init__(self, n, sents):
         """
         n -- order of the model.
@@ -50,7 +51,17 @@ class NGram(LanguageModel):
 
         count = defaultdict(int)
 
-        # WORK HERE!!
+        sents = [self.add_separators(sent) for sent in sents]
+
+        for sent in sents:
+            for i in range(len(sent) - n + 1):
+                ngram = tuple(sent[i:i + n])
+                count[ngram] += 1
+
+        for sent in sents:
+            for i in range(len(sent) - n + 1):
+                ngram = tuple(sent[i:i + n - 1])
+                count[ngram] += 1
 
         self._count = dict(count)
 
@@ -67,18 +78,35 @@ class NGram(LanguageModel):
         token -- the token.
         prev_tokens -- the previous n-1 tokens (optional only if n = 1).
         """
-        # WORK HERE!!
+        prev_tokens = tuple(prev_tokens) if prev_tokens else tuple()
+        tokens = prev_tokens + (token,)
+        return self._count.get(tokens, 0) / self._count.get(prev_tokens, 1)
+
+    def sentence_probability(self, sent, prob_acum, get_prob):
+        sent = self.add_separators(sent)
+        for i in range(self._n - 1, len(sent)):
+            token = sent[i]
+            prev_tokens = sent[i - self._n + 1:i] if self._n > 1 else None
+            prob_acum = get_prob(token, prev_tokens, prob_acum)
+        return prob_acum
 
     def sent_prob(self, sent):
         """Probability of a sentence. Warning: subject to underflow problems.
 
         sent -- the sentence as a list of tokens.
         """
-        # WORK HERE!!
+        prob = lambda token, prev_tokens, acum: acum * self.cond_prob(token, prev_tokens)
+        return self.sentence_probability(sent, 1, prob)
 
     def sent_log_prob(self, sent):
         """Log-probability of a sentence.
 
         sent -- the sentence as a list of tokens.
         """
-        # WORK HERE!!
+
+        log_prob = lambda token, prev_tokens, acum: acum + math.log2(
+            self.cond_prob(token, prev_tokens)) if self.cond_prob(token, prev_tokens) != 0 else -math.inf
+        return self.sentence_probability(sent, 0, log_prob)
+
+    def add_separators(self, sent):
+        return list(repeat('<s>', self._n - 1)) + sent + ['</s>']
