@@ -113,7 +113,6 @@ class NGram(LanguageModel):
 
 
 class AddOneNGram(NGram):
-
     def __init__(self, n, sents):
         """
         n -- order of the model.
@@ -149,7 +148,6 @@ class AddOneNGram(NGram):
 
 
 class InterpolatedNGram(NGram):
-
     def __init__(self, n, sents, gamma=None, addone=True):
         """
         n -- order of the model.

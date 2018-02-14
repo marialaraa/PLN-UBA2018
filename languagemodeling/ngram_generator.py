@@ -12,11 +12,12 @@ class NGramGenerator(object):
         # compute the probabilities
         probs = defaultdict(dict)
 
-        for prev_tokens in model._count.keys():
-            if len(prev_tokens) == self._n - 1:
-                probs[prev_tokens] = {tokens[-1]: model.cond_prob(tokens[-1], prev_tokens) for tokens in
-                                      model._count.keys() if
-                                      len(tokens) == self._n and prev_tokens == tokens[0:-1]}
+        for tokens in model._count.keys():
+            if len(tokens) == self._n:
+                token = tokens[-1]
+                prev_tokens = tokens[:-1]
+                probs[prev_tokens][token] = model.cond_prob(token, prev_tokens)
+
         self._probs = dict(probs)
 
         # sort in descending order for efficient sampling
@@ -33,7 +34,7 @@ class NGramGenerator(object):
         token = self.generate_token(tuple(prev_tokens))
         while token != '</s>':
             sent.append(token)
-            prev_tokens = prev_tokens[1:] + [token] if n > 1 else None
+            prev_tokens = (prev_tokens + [token])[1:]
             token = self.generate_token(prev_tokens)
         return sent
 
