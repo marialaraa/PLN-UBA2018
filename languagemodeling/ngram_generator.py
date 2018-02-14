@@ -3,7 +3,6 @@ import random
 
 
 class NGramGenerator(object):
-
     def __init__(self, model):
         """
         model -- n-gram model.
@@ -12,13 +11,20 @@ class NGramGenerator(object):
 
         # compute the probabilities
         probs = defaultdict(dict)
-        # WORK HERE!!
 
+        for prev_tokens in model._count.keys():
+            if len(prev_tokens) == self._n - 1:
+                probs[prev_tokens] = {}
+                for tokens in model._count.keys():
+                    if len(tokens) == self._n and prev_tokens == tokens[0:-1]:
+                        token = tokens[-1]
+                        probs[prev_tokens][token] = model.cond_prob(token, prev_tokens)
         self._probs = dict(probs)
 
         # sort in descending order for efficient sampling
-        self._sorted_probs = sorted_probs = {}
-        # WORK HERE!!
+        self._sorted_probs = {}
+        for token, prob in self._probs.items():
+            self._sorted_probs[token] = sorted(prob.items(), key=lambda item: item[1])
 
     def generate_sent(self):
         """Randomly generate a sentence."""
@@ -28,9 +34,9 @@ class NGramGenerator(object):
         prev_tokens = ['<s>'] * (n - 1)
         token = self.generate_token(tuple(prev_tokens))
         while token != '</s>':
-            pass
-            # WORK HERE!!
-
+            sent.append(token)
+            prev_tokens = prev_tokens[1:] + [token] if n > 1 else None
+            token = self.generate_token(prev_tokens)
         return sent
 
     def generate_token(self, prev_tokens=None):
@@ -43,8 +49,13 @@ class NGramGenerator(object):
             prev_tokens = ()
         assert len(prev_tokens) == n - 1
 
-        r = random.random()
-        probs = self._sorted_probs[prev_tokens]
-        # WORK HERE!!
-        token = None
-        return token
+        probs = self._sorted_probs[tuple(prev_tokens)]
+        random_probability = random.random()
+        i = 0
+        word, probability = probs[0]
+        acum = probability
+        while random_probability > acum:
+            i += 1
+            word, probability = probs[i]
+            acum += probability
+        return word
