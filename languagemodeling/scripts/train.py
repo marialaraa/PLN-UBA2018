@@ -33,7 +33,7 @@ if __name__ == '__main__':
     opts = docopt(__doc__)
 
     # load the data
-    root = "custom_corpus/Outlander"
+    root = "../corpus/Outlander"
 
     books_filename = os.listdir(root)
     sents = PlaintextCorpusReader(root, books_filename).sents()

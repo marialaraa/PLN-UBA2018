@@ -14,11 +14,9 @@ class NGramGenerator(object):
 
         for prev_tokens in model._count.keys():
             if len(prev_tokens) == self._n - 1:
-                probs[prev_tokens] = {}
-                for tokens in model._count.keys():
-                    if len(tokens) == self._n and prev_tokens == tokens[0:-1]:
-                        token = tokens[-1]
-                        probs[prev_tokens][token] = model.cond_prob(token, prev_tokens)
+                probs[prev_tokens] = {tokens[-1]: model.cond_prob(tokens[-1], prev_tokens) for tokens in
+                                      model._count.keys() if
+                                      len(tokens) == self._n and prev_tokens == tokens[0:-1]}
         self._probs = dict(probs)
 
         # sort in descending order for efficient sampling
