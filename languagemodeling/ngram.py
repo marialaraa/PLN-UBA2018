@@ -5,6 +5,8 @@ from itertools import repeat
 
 import math
 
+import itertools
+
 
 class LanguageModel(object):
     def sent_prob(self, sent):
@@ -122,10 +124,9 @@ class AddOneNGram(NGram):
         super().__init__(n, sents)
 
         # compute vocabulary
-        self._voc = voc = set()
-        # WORK HERE!!
+        self._voc = set(list(itertools.chain.from_iterable(sents)) + ['</s>'])
 
-        self._V = len(voc)  # vocabulary size
+        self._V = len(self._voc)  # vocabulary size
 
     def V(self):
         """Size of the vocabulary.
@@ -144,7 +145,8 @@ class AddOneNGram(NGram):
             prev_tokens = ()
         assert len(prev_tokens) == n - 1
 
-        # WORK HERE!!
+        tokens = prev_tokens + (token,)
+        return (self._count.get(tokens, 0) + 1) / (self._count.get(prev_tokens, 1) + self._V)
 
 
 class InterpolatedNGram(NGram):
