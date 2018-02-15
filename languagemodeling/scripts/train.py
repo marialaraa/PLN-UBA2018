@@ -17,18 +17,18 @@ import os
 import pickle
 
 from docopt import docopt
-from languagemodeling.ngram import NGram, AddOneNGram, InterpolatedNGram
-
 from nltk.corpus import PlaintextCorpusReader
+
+from languagemodeling.ngram import NGram, AddOneNGram, InterpolatedNGram
 
 if __name__ == '__main__':
     opts = docopt(__doc__)
 
     # load the data
     root = "../corpus/Outlander"
-
     books_filename = os.listdir(root)
-    sents = PlaintextCorpusReader(root, books_filename).sents()
+    books_filename.remove('Outlander01.txt')
+    sentences = PlaintextCorpusReader(root, books_filename).sents()
 
     # train the model
     models = {
@@ -38,7 +38,7 @@ if __name__ == '__main__':
     }
     model_class = models[opts.get('-m', 'ngram')]
     n = int(opts['-n'])
-    model = model_class(n, sents)
+    model = model_class(n, sentences)
 
     # save it
     filename = opts['-o']

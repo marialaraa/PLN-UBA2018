@@ -1,11 +1,9 @@
 # https://docs.python.org/3/library/collections.html
 
+import itertools
+import math
 from collections import defaultdict
 from itertools import repeat
-
-import math
-
-import itertools
 
 
 class LanguageModel(object):
@@ -145,6 +143,7 @@ class AddOneNGram(NGram):
             prev_tokens = ()
         assert len(prev_tokens) == n - 1
 
+        prev_tokens = tuple(prev_tokens) if prev_tokens else tuple()
         tokens = prev_tokens + (token,)
         return (self._count.get(tokens, 0) + 1) / (self._count.get(prev_tokens, 1) + self._V)
 
