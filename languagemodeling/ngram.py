@@ -198,7 +198,7 @@ class InterpolatedNGram(NGram):
 
         tokens -- the k-gram tuple.
         """
-        return self._count.get(tokens, 0)
+        return self._models[len(tokens[:-1])]._count.get(tokens, 0)
 
     def cond_prob(self, token, prev_tokens=None):
         """Conditional probability of a token.
@@ -233,5 +233,5 @@ class InterpolatedNGram(NGram):
             sum_olds_lambdas = 1 - sum(lambdas[:i - 1])
             count_tmp_token = self._models[len(temp_token)].count(temp_token)
             lambdas.append(sum_olds_lambdas * count_tmp_token / (count_tmp_token + self._gamma))
-        lambdas.append(1 - sum(lambdas))        # last case has a special condition
+        lambdas.append(1 - sum(lambdas))  # last case has a special condition
         return lambdas
