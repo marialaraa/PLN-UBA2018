@@ -55,13 +55,8 @@ class NGram(LanguageModel):
 
         for sent in sents:
             for i in range(len(sent) - n + 1):
-                ngram = tuple(sent[i:i + n])
-                count[ngram] += 1
-
-        for sent in sents:
-            for i in range(len(sent) - n + 1):
-                ngram = tuple(sent[i:i + n - 1])
-                count[ngram] += 1
+                count[tuple(sent[i:i + n])] += 1
+                count[tuple(sent[i:i + n - 1])] += 1
 
         self._count = dict(count)
 
@@ -170,20 +165,14 @@ class InterpolatedNGram(NGram):
             held_out_sents = sents[m:]
 
         print('Computing counts...')
-        count = defaultdict()
-        for k in range(self._n + 1):
-            for sent in train_sents:
-                for i in range(len(sent) - k + 1):
-                    ngram = tuple(sent[i:i + k])
-                    count[ngram] += 1
-        self._count = dict(count)
+        self._models = []
+        for k in range(1, self._n + 1):
+            self._models.append(NGram(k, train_sents))
 
         # compute vocabulary size for add-one in the last step
-        self._addone = addone
         if addone:
             print('Computing vocabulary...')
-            self._voc = set(list(itertools.chain.from_iterable(train_sents)) + ['</s>'])
-            self._V = len(self._voc)
+            self._addone = AddOneNGram(1, train_sents)
 
         # compute gamma if not given
         if gamma is not None:
@@ -193,8 +182,7 @@ class InterpolatedNGram(NGram):
             # use grid search to choose gamma
             min_gamma, min_p = None, float('inf')
 
-            # WORK HERE!! TRY DIFFERENT VALUES BY HAND:
-            for gamma in [100 + i * 50 for i in range(10)]:
+            for gamma in [20 + i * 10 for i in range(50)]:
                 self._gamma = gamma
                 p = self.perplexity(held_out_sents)
                 print('  {} -> {}'.format(gamma, p))
@@ -210,7 +198,7 @@ class InterpolatedNGram(NGram):
 
         tokens -- the k-gram tuple.
         """
-        # WORK HERE!! (JUST A RETURN STATEMENT)
+        return self._count.get(tokens, 0)
 
     def cond_prob(self, token, prev_tokens=None):
         """Conditional probability of a token.
@@ -222,24 +210,28 @@ class InterpolatedNGram(NGram):
         if not prev_tokens:
             # if prev_tokens not given, assume 0-uple:
             prev_tokens = ()
+        else:
+            prev_tokens = tuple(prev_tokens)
         assert len(prev_tokens) == n - 1
 
-        # WORK HERE!!
-        # SUGGESTED STRUCTURE:
-        tokens = prev_tokens + (token,)
+        lambdas = self.lambdas(n, tuple(prev_tokens))
         prob = 0.0
-        cum_lambda = 0.0  # sum of previous lambdas
-        for i in range(n):
-            # i-th term of the sum
-            if i < n - 1:
-                # COMPUTE lambdaa AND cond_ml.
-                pass
+        tokens = prev_tokens + (token,)
+        for i in range(len(tokens)):
+            prev_token = tuple(tokens[i:-1])
+            if i == n and self._addone:
+                cond_ml = self._addone.cond_prob(token, prev_token)
             else:
-                # COMPUTE lambdaa AND cond_ml.
-                # LAST TERM: USE ADD ONE IF NEEDED!
-                pass
-
-            prob += lambdaa * cond_ml
-            cum_lambda += lambdaa
-
+                cond_ml = self._models[len(prev_token)].cond_prob(token, prev_token)
+            prob += lambdas[i] * cond_ml
         return prob
+
+    def lambdas(self, n, tokens):
+        lambdas = []
+        for i in range(n - 1):
+            temp_token = tokens[i:]
+            sum_olds_lambdas = 1 - sum(lambdas[:i - 1])
+            count_tmp_token = self._models[len(temp_token)].count(temp_token)
+            lambdas.append(sum_olds_lambdas * count_tmp_token / (count_tmp_token + self._gamma))
+        lambdas.append(1 - sum(lambdas))        # last case has a special condition
+        return lambdas
