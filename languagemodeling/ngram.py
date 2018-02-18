@@ -182,7 +182,7 @@ class InterpolatedNGram(NGram):
             # use grid search to choose gamma
             min_gamma, min_p = None, float('inf')
 
-            for gamma in [20 + i * 10 for i in range(50)]:
+            for gamma in range(1000, 10000, 100):
                 self._gamma = gamma
                 p = self.perplexity(held_out_sents)
                 print('  {} -> {}'.format(gamma, p))
