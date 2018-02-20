@@ -106,3 +106,12 @@ necesario.
 Si no se indica el valor de `gamma` que se deba utilizar, entonces
 se realiza un barrido para seleccionar el mejor para el corpus utilizado.
 
+Se presenta a continuación los valores de perplejidad para `n={1, 2, 3, 4}`,
+siendo n el correspondiente a n-grama.
+
+| Interpolación con n-grama | Perplexity |
+| :-------------: | :-------------: |
+| 1 | 656.965017341343 |
+| 2 | 152.3435958587464 |
+| 3 |  |
+| 4 |  |

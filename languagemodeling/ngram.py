@@ -75,14 +75,22 @@ class NGram(LanguageModel):
         """
         prev_tokens = tuple(prev_tokens) if prev_tokens else tuple()
         tokens = prev_tokens + (token,)
-        return self._count.get(tokens, 0) / self._count.get(prev_tokens, 1)
+        count_tokens = self.count(tokens)
+        count_prev_tokens = self.count(prev_tokens)
+        if count_prev_tokens != 0:
+            return count_tokens / count_prev_tokens
+        else:
+            return count_tokens
 
     def sentence_probability(self, sent, prob_acum, get_prob):
         sent = self.add_separators(sent)
         for i in range(self._n - 1, len(sent)):
             token = sent[i]
             prev_tokens = sent[i - self._n + 1:i] if self._n > 1 else None
-            prob_acum = get_prob(token, prev_tokens, prob_acum)
+            try:
+                prob_acum = get_prob(token, prev_tokens, prob_acum)
+            except ValueError:
+                print(' erroooor ')
         return prob_acum
 
     def sent_prob(self, sent):
@@ -140,7 +148,12 @@ class AddOneNGram(NGram):
 
         prev_tokens = tuple(prev_tokens) if prev_tokens else tuple()
         tokens = prev_tokens + (token,)
-        return (self._count.get(tokens, 0) + 1) / (self._count.get(prev_tokens, 1) + self._V)
+        count_prev_tokens = self.count(prev_tokens)
+        count_tokens = self.count(tokens)
+        if count_prev_tokens != 0:
+            return (count_tokens + 1) / (count_prev_tokens + self._V)
+        else:
+            return count_tokens + 1
 
 
 class InterpolatedNGram(NGram):
@@ -170,6 +183,7 @@ class InterpolatedNGram(NGram):
             self._models.append(NGram(k, train_sents))
 
         # compute vocabulary size for add-one in the last step
+        self._addone = None
         if addone:
             print('Computing vocabulary...')
             self._addone = AddOneNGram(1, train_sents)
