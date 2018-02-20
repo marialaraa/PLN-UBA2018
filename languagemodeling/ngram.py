@@ -219,7 +219,7 @@ class InterpolatedNGram(NGram):
         tokens = prev_tokens + (token,)
         for i in range(len(tokens)):
             prev_token = tuple(tokens[i:-1])
-            if i == n and self._addone:
+            if i == n - 1 and self._addone:
                 cond_ml = self._addone.cond_prob(token, prev_token)
             else:
                 cond_ml = self._models[len(prev_token)].cond_prob(token, prev_token)
