@@ -108,7 +108,8 @@ class NGram(LanguageModel):
         """
 
         log_prob = lambda token, prev_tokens, acum: acum + math.log2(
-            self.cond_prob(token, prev_tokens)) if self.cond_prob(token, prev_tokens) != 0 else -math.inf
+            self.cond_prob(token, prev_tokens)) \
+            if not math.isinf(self.cond_prob(token, prev_tokens)) else -math.inf
         return self.sentence_probability(sent, 0, log_prob)
 
     def add_separators(self, sent):
@@ -232,11 +233,11 @@ class InterpolatedNGram(NGram):
         prob = 0.0
         tokens = prev_tokens + (token,)
         for i in range(len(tokens)):
-            prev_token = tuple(tokens[i:-1])
+            tmp_prev_tokens = tuple(tokens[i:-1])
             if i == n - 1 and self._addone:
-                cond_ml = self._addone.cond_prob(token, prev_token)
+                cond_ml = self._addone.cond_prob(token, tmp_prev_tokens)
             else:
-                cond_ml = self._models[len(prev_token)].cond_prob(token, prev_token)
+                cond_ml = self._models[len(tmp_prev_tokens)].cond_prob(token, tmp_prev_tokens)
             prob += lambdas[i] * cond_ml
         return prob
 
@@ -244,7 +245,7 @@ class InterpolatedNGram(NGram):
         lambdas = []
         for i in range(n - 1):
             temp_token = tokens[i:]
-            sum_olds_lambdas = 1 - sum(lambdas[:i - 1])
+            sum_olds_lambdas = 1 - sum(lambdas[:i])
             count_tmp_token = self._models[len(temp_token)].count(temp_token)
             lambdas.append(sum_olds_lambdas * count_tmp_token / (count_tmp_token + self._gamma))
         lambdas.append(1 - sum(lambdas))  # last case has a special condition
