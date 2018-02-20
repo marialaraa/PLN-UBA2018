@@ -245,8 +245,8 @@ class InterpolatedNGram(NGram):
         lambdas = []
         for i in range(n - 1):
             temp_token = tokens[i:]
-            sum_olds_lambdas = 1 - sum(lambdas[:i])
+            sum_old_lambdas = 1 - sum(lambdas[:i])
             count_tmp_token = self._models[len(temp_token)].count(temp_token)
-            lambdas.append(sum_olds_lambdas * count_tmp_token / (count_tmp_token + self._gamma))
+            lambdas.append(sum_old_lambdas * count_tmp_token / (count_tmp_token + self._gamma))
         lambdas.append(1 - sum(lambdas))  # last case has a special condition
         return lambdas
