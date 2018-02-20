@@ -182,7 +182,7 @@ class InterpolatedNGram(NGram):
             # use grid search to choose gamma
             min_gamma, min_p = None, float('inf')
 
-            for gamma in range(100, 500, 50):
+            for gamma in range(1000, 10000, 100):
                 self._gamma = gamma
                 p = self.perplexity(held_out_sents)
                 print('  {} -> {}'.format(gamma, p))
@@ -219,7 +219,7 @@ class InterpolatedNGram(NGram):
         tokens = prev_tokens + (token,)
         for i in range(len(tokens)):
             prev_token = tuple(tokens[i:-1])
-            if i == n - 1 and self._addone:
+            if i == n and self._addone:
                 cond_ml = self._addone.cond_prob(token, prev_token)
             else:
                 cond_ml = self._models[len(prev_token)].cond_prob(token, prev_token)

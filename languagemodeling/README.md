@@ -77,10 +77,10 @@ para n={1,2,3,4}.
 | 3 | -5234911.68 | 12.71 | 6740.74 |
 | 4 | -5728369.84 | 13.91 | 15474.36 |
 
-Cuanto más bajo es el valor de `perplexity`, entonces mejor será el modelo
+Cuanto más alto es el valor de `perplexity`, entonces mejor será el modelo
 del lenguaje en el modelado de oraciones no vistas previamente. Se observa
-una mejora importante en el modelo de add-one unigrama contra
-el modelo de add-one cuatrigramas.
+una mejora importante en el modelo de add-one cuatrigrama contra
+el modelo de add-one unigramas.
 
 <!--1gram-->
 <!--sobre el mismo corpus de entrenamiento-->
