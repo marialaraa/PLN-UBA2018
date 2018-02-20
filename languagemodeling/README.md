@@ -82,18 +82,6 @@ del lenguaje en el modelado de oraciones no vistas previamente. Se observa
 una mejora importante en el modelo de add-one unigrama contra
 el modelo de add-one cuatrigramas.
 
-<!--1gram-->
-<!--sobre el mismo corpus de entrenamiento-->
-<!--Log probability: -31703639.881051958-->
-<!--Cross entropy: 9.271691331130986-->
-<!--Perplexity: 618.0978048404776-->
-
-<!--4gram-->
-<!--sobre el mismo corpus de entrenamiento-->
-<!--Log probability: -44854392.5005444-->
-<!--Cross entropy: 13.117613109118027-->
-<!--Perplexity: 8887.815228771982-->
-
 ## Ejercicio 6: Evaluación de Modelos de Lenguaje
 Se implementa el suavizado por interpolación como un nuevo modelo del
 lenguaje. La clase `InterpolatedNGram` presenta los métodos necesarios.
