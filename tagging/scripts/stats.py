@@ -12,65 +12,8 @@ import os
 from docopt import docopt
 from collections import defaultdict
 from tagging.ancora import SimpleAncoraCorpusReader
+from tagging.stats import Stats
 
-
-class POSStats:
-    """Several statistics for a POS tagged corpus.
-    """
-
-    def __init__(self, tagged_sents):
-        """
-        tagged_sents -- corpus (list/iterable/generator of tagged sentences)
-        """
-        # WORK HERE!!
-        # COLLECT REQUIRED STATISTICS INTO DICTIONARIES.
-
-    def sent_count(self):
-        """Total number of sentences."""
-        # WORK HERE!!
-
-    def token_count(self):
-        """Total number of tokens."""
-        # WORK HERE!!
-
-    def words(self):
-        """Vocabulary (set of word types)."""
-        # WORK HERE!!
-
-    def word_count(self):
-        """Vocabulary size."""
-        # WORK HERE!!
-
-    def word_freq(self, w):
-        """Frequency of word w."""
-        # WORK HERE!!
-
-    def unambiguous_words(self):
-        """List of words with only one observed POS tag."""
-        # WORK HERE!!
-
-    def ambiguous_words(self, n):
-        """List of words with n different observed POS tags.
-
-        n -- number of tags.
-        """
-        # WORK HERE!!
-
-    def tags(self):
-        """POS Tagset."""
-        # WORK HERE!!
-
-    def tag_count(self):
-        """POS tagset size."""
-        # WORK HERE!!
-
-    def tag_freq(self, t):
-        """Frequency of tag t."""
-        # WORK HERE!!
-
-    def tag_word_dict(self, t):
-        """Dictionary of words and their counts for tag t."""
-        return dict(self._tcount[t])
 
 
 if __name__ == '__main__':
@@ -81,7 +24,7 @@ if __name__ == '__main__':
     sents = corpus.tagged_sents()
 
     # compute the statistics
-    stats = POSStats(sents)
+    stats = Stats(sents)
 
     print('Basic Statistics')
     print('================')
