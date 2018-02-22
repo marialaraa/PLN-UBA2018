@@ -1,0 +1,11 @@
+
+.gitignore
+.idea/
+.ipynb_checkpoints/
+pln_uba2018.egg-info/
+languagemodeling/models/
+languagemodeling/.idea/
+languagemodeling/__pycache__/
+languagemodeling/corpus/
+languagemodeling/tests/__pycache__/
+practices/
