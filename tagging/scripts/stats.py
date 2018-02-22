@@ -7,10 +7,11 @@ Usage:
 Options:
   -h --help     Show this screen.
 """
+import sys
+import os
 from docopt import docopt
 from collections import defaultdict
-
-from ancora import SimpleAncoraCorpusReader
+from tagging.ancora import SimpleAncoraCorpusReader
 
 
 class POSStats:
@@ -76,7 +77,7 @@ if __name__ == '__main__':
     opts = docopt(__doc__)
 
     # load the data
-    corpus = SimpleAncoraCorpusReader('ancora/ancora-3.0.1es/')
+    corpus = SimpleAncoraCorpusReader('data/ancora/')
     sents = corpus.tagged_sents()
 
     # compute the statistics
