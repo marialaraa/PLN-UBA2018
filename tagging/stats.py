@@ -18,7 +18,7 @@ class Stats:
         )
 
         self._words_to_tags = nltk.ConditionalFreqDist(
-        (word, tag) for sent in self._tagged_sents for (word, tag) in sent
+            (word, tag) for sent in self._tagged_sents for (word, tag) in sent
         )
 
         self._tag_to_words = nltk.ConditionalFreqDist(
@@ -72,11 +72,16 @@ class Stats:
         """
         return [
             w for w in self._words_to_tags
-            if len(self._words_to_tags[w]) > 1
+            if len(self._words_to_tags[w]) == n
         ]
-
 
 
     def tag_word_dict(self, t):
         """Dictionary of words and their counts for tag t."""
         return dict(self._tag_to_words[t])
+
+    def word_tag_dict(self, w):
+        return self._words_to_tags[w]
+
+    def word_most_frequent_tag(self, w):
+        return self.word_tag_dict(w).max()
