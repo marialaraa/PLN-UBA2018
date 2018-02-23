@@ -16,7 +16,7 @@ if __name__ == '__main__':
     opts = docopt(__doc__)
 
     # load the data
-    corpus = SimpleAncoraCorpusReader('../corpus/')
+    corpus = SimpleAncoraCorpusReader('../corpus/ancora/')
     sents = corpus.tagged_sents()
 
     # compute the statistics

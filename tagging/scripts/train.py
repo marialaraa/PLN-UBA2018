@@ -38,7 +38,7 @@ if __name__ == '__main__':
 
     # load the data
     files = 'CESS-CAST-(A|AA|P)/.*\.tbf\.xml'
-    corpus = SimpleAncoraCorpusReader('../corpus/', files)
+    corpus = SimpleAncoraCorpusReader('../corpus/ancora/', files)
     sents = corpus.tagged_sents()
 
     # train the model
