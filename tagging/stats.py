@@ -1,6 +1,7 @@
 """ Part-of-speech statistics class."""
 import nltk
 
+
 class Stats:
     """Several statistics for a POS tagged corpus.
     """
@@ -10,9 +11,11 @@ class Stats:
         tagged_sents -- corpus (list/iterable/generator of tagged sentences)
         """
         self._tagged_sents = list(tagged_sents)
+
         self._words = nltk.FreqDist(
             tok for sent in self._tagged_sents for (tok, _) in sent
         )
+
         self._tags = nltk.FreqDist(
             tag for sent in self._tagged_sents for (_, tag) in sent
         )
@@ -60,28 +63,23 @@ class Stats:
     def unambiguous_words(self):
         """List of words with only one observed POS tag."""
 
-        return [
-            w for w in self._words_to_tags
-            if len(self._words_to_tags[w]) == 1
-        ]
+        return [w for w in self._words_to_tags if len(self._words_to_tags[w]) == 1]
 
     def ambiguous_words(self, n):
         """List of words with n different observed POS tags.
 
         n -- number of tags.
         """
-        return [
-            w for w in self._words_to_tags
-            if len(self._words_to_tags[w]) == n
-        ]
-
+        return [w for w in self._words_to_tags if len(self._words_to_tags[w]) == n]
 
     def tag_word_dict(self, t):
         """Dictionary of words and their counts for tag t."""
         return dict(self._tag_to_words[t])
 
     def word_tag_dict(self, w):
+        """List of POS tag that a word was tagged"""
         return self._words_to_tags[w]
 
     def word_most_frequent_tag(self, w):
+        """Most frequent POS tag of a word"""
         return self.word_tag_dict(w).max()

@@ -110,3 +110,5 @@ models/*.pkl
 languagemodeling/.idea/
 languagemodeling/corpus/
 languagemodeling/models/
+tagging/data/
+tagging/models/

@@ -2,7 +2,6 @@ from collections import namedtuple
 
 from featureforge.feature import Feature
 
-
 # sent -- the whole sentence.
 # prev_tags -- a tuple with the n previous tags.
 # i -- the position to be tagged.
@@ -50,7 +49,6 @@ def word_isdigit(h):
 
 
 class NPrevTags(Feature):
-
     def __init__(self, n):
         """Feature: n previous tags tuple.
 
@@ -67,7 +65,6 @@ class NPrevTags(Feature):
 
 
 class PrevWord(Feature):
-
     def __init__(self, f):
         """Apply a feature to the previous word.
 
@@ -88,7 +85,6 @@ class PrevWord(Feature):
 
 
 class NextWord(Feature):
-
     def __init__(self, f):
         """Apply a feature to the next word.
 

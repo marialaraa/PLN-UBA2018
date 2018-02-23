@@ -1,6 +1,6 @@
-from nltk.corpus.reader.api import SyntaxCorpusReader
-from nltk.corpus.reader import xmldocs
 from nltk import tree
+from nltk.corpus.reader import xmldocs
+from nltk.corpus.reader.api import SyntaxCorpusReader
 from nltk.util import LazyMap, LazyConcatenation
 
 
@@ -58,7 +58,6 @@ def untagged(element):
 
 
 class AncoraCorpusReader(SyntaxCorpusReader):
-
     def __init__(self, path, files=None):
         if files is None:
             files = '.*\.tbf\.xml'
@@ -98,6 +97,7 @@ class SimpleAncoraCorpusReader(AncoraCorpusReader):
 
     def tagged_sents(self, fileids=None):
         def f(s): return [(w, simple_tag(t)) for w, t in s]
+
         return LazyMap(f, super().tagged_sents(fileids))
 
     def parsed_sents(self, fileids=None):
