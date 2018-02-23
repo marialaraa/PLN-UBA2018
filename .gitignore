@@ -4,7 +4,8 @@
 .ipynb_checkpoints/
 languagemodeling/__pycache__/
 languagemodeling/tests/__pycache__/
-practices/
 pln_uba2018.egg-info/
 practico1/
 languagemodeling/models/
+tagging/corpus
+tagging/models
