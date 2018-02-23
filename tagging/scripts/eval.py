@@ -36,7 +36,7 @@ if __name__ == '__main__':
 
     # load the data
     files = '3LB-CAST/.*\.tbf\.xml'
-    corpus = SimpleAncoraCorpusReader('../data/', files)
+    corpus = SimpleAncoraCorpusReader('../corpus/', files)
     sents = list(corpus.tagged_sents())
 
     # tag

@@ -104,11 +104,11 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-data/*
+tagging/corpus/*
 models/*.pkl
 .idea/
 languagemodeling/.idea/
 languagemodeling/corpus/
 languagemodeling/models/
-tagging/data/
+tagging/corpus/
 tagging/models/
