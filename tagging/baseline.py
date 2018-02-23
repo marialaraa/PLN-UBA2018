@@ -1,5 +1,5 @@
 from collections import defaultdict
-
+from .stats import Stats
 
 class BadBaselineTagger:
 
@@ -38,7 +38,8 @@ class BaselineTagger:
         tagged_sents -- training sentences, each one being a list of pairs.
         default_tag -- tag for unknown words.
         """
-        # WORK HERE!!
+        self._stats = Stats(tagged_sents)
+        self._default = default_tag
 
     def tag(self, sent):
         """Tag a sentence.
@@ -52,11 +53,14 @@ class BaselineTagger:
 
         w -- the word.
         """
-        # WORK HERE!!
+        if not self.unknown(w):
+            return self._stats.word_most_frequent_tag(w)
+        else:
+            return self._default
 
     def unknown(self, w):
         """Check if a word is unknown for the model.
 
         w -- the word.
         """
-        # WORK HERE!!
+        return w not in self._stats.words()
