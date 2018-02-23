@@ -7,20 +7,16 @@ Usage:
 Options:
   -h --help     Show this screen.
 """
-import sys
-import os
 from docopt import docopt
-from collections import defaultdict
+
 from tagging.ancora import SimpleAncoraCorpusReader
 from tagging.stats import Stats
-
-
 
 if __name__ == '__main__':
     opts = docopt(__doc__)
 
     # load the data
-    corpus = SimpleAncoraCorpusReader('data/ancora/')
+    corpus = SimpleAncoraCorpusReader('data/')
     sents = corpus.tagged_sents()
 
     # compute the statistics

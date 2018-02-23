@@ -17,12 +17,13 @@ Options:
   -o <file>     Output model file.
   -h --help     Show this screen.
 """
-from docopt import docopt
 import pickle
 
-from ancora import SimpleAncoraCorpusReader
+from docopt import docopt
 
+from tagging.ancora import SimpleAncoraCorpusReader
 from tagging.baseline import BaselineTagger, BadBaselineTagger
+
 # from tagging.memm import MEMM
 
 
@@ -32,13 +33,12 @@ models = {
     # 'memm': MEMM,
 }
 
-
 if __name__ == '__main__':
     opts = docopt(__doc__)
 
     # load the data
     files = 'CESS-CAST-(A|AA|P)/.*\.tbf\.xml'
-    corpus = SimpleAncoraCorpusReader('ancora/ancora-3.0.1es/', files)
+    corpus = SimpleAncoraCorpusReader('data/', files)
     sents = corpus.tagged_sents()
 
     # train the model
