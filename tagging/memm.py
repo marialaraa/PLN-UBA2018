@@ -6,10 +6,10 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
 
-from tagging.features import (History, word_lower, word_istitle, word_isupper,
-                              word_isdigit, NPrevTags, prev_tags)
+from tagging.features import (History, word_lower, word_istitle, word_isupper, word_isdigit, prev_tags,
+                              NextWord, PrevWord)
 
-classifiers = {
+CLASSIFIERS = {
     'maxent': LogisticRegression,
     'mnb': MultinomialNB,
     'svm': LinearSVC,
@@ -27,12 +27,13 @@ class MEMM:
         self._n = n
 
         # 1. build the pipeline
-        features = [word_lower, prev_tags, word_istitle, word_isupper, word_isdigit]
+        features = [word_lower, prev_tags, word_istitle, word_isupper, word_isdigit,
+                    PrevWord(word_lower), PrevWord(word_isdigit), PrevWord(word_istitle), PrevWord(word_isupper),
+                    NextWord(word_lower), NextWord(word_isdigit), NextWord(word_istitle), NextWord(word_isupper),]
         vect = featureforge.vectorizer.Vectorizer(features)
 
-        clf = sklearn.linear_model.LogisticRegression()
 
-        self._pipeline = Pipeline([('vect', vect), ('clf', clf)])
+        self._pipeline = Pipeline([('vect', vect), ('clf', LogisticRegression())])
 
         # 2. train it
         print('Training classifier...')
@@ -41,9 +42,8 @@ class MEMM:
         self._pipeline.fit(X, y)
 
         # 3. build known words set
-        self._vocabulary = set()
-        for sent in [list(zip(*tagged_sent))[0] for tagged_sent in tagged_sents]:
-            self._vocabulary = self._vocabulary.union(set(sent))
+        self._vocabulary = {tok for sent in tagged_sents for (tok, tag) in sent}
+
 
     def sents_histories(self, tagged_sents):
         """

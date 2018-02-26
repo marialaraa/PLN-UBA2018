@@ -52,4 +52,7 @@ vectorización. Se definen los siguientes métodos:
     * PrevWord: para un feature `f` dado, aplicalo sobre la palabra anterior a la actual.
 
 ## Ejercicio 4
+En este ejercicio se implementa un Maximum Entropy Markov Model. Se utilizará
+`Vectorizer` con los features definidos en el ejercicio anterior y como clasificador
+de máxima entropia a `LogisticRegression`.
 
