@@ -23,16 +23,16 @@ class MEMM:
         tagged_sents -- list of sentences, each one being a list of pairs.
         clf -- classifying model, one of 'svm', 'maxent', 'mnb' (default: 'svm').
         """
-        self.n = n
+
+        self._n = n
+
         # 1. build the pipeline
-        n_prev_tags = NPrevTags(n - 1)
-        vect = featureforge.vectorizer.Vectorizer(
-            [word_lower, prev_tags, word_istitle, word_isupper, word_isdigit, n_prev_tags])
+        features = [word_lower, prev_tags, word_istitle, word_isupper, word_isdigit]
+        vect = featureforge.vectorizer.Vectorizer(features)
+
         clf = sklearn.linear_model.LogisticRegression()
-        self._pipeline = Pipeline([
-            ('vect', vect),
-            ('clf', clf)
-        ])
+
+        self._pipeline = Pipeline([('vect', vect), ('clf', clf)])
 
         # 2. train it
         print('Training classifier...')
@@ -61,7 +61,7 @@ class MEMM:
 
         tagged_sent -- the tagged sentence (a list of pairs (word, tag)).
         """
-        prev_tags = ('<s>',) * (self.n - 1)
+        prev_tags = ('<s>',) * (self._n - 1)
         sent = [w for w, _ in tagged_sent]
         for i, (w, t) in enumerate(tagged_sent):
             yield History(sent, prev_tags, i)
@@ -91,7 +91,7 @@ class MEMM:
         sent -- the sentence.
         """
         tags = []
-        prev = ('<s>', '<s>')
+        prev = ('<s>',) * (self._n - 1)
         for i, w in enumerate(sent):
             h = History(sent, prev, i)
             tag = self.tag_history(h)
