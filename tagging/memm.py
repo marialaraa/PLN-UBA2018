@@ -1,15 +1,13 @@
-from math import log2
-from numpy import exp2
-
+import featureforge
+import sklearn
 from featureforge.vectorizer import Vectorizer
-from sklearn.pipeline import Pipeline
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.svm import LinearSVC
 from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.pipeline import Pipeline
+from sklearn.svm import LinearSVC
 
 from tagging.features import (History, word_lower, word_istitle, word_isupper,
-                              word_isdigit, NPrevTags, PrevWord, NextWord)
-
+                              word_isdigit, NPrevTags, prev_tags)
 
 classifiers = {
     'maxent': LogisticRegression,
@@ -19,25 +17,33 @@ classifiers = {
 
 
 class MEMM:
-
     def __init__(self, n, tagged_sents, clf='svm'):
         """
         n -- order of the model.
         tagged_sents -- list of sentences, each one being a list of pairs.
         clf -- classifying model, one of 'svm', 'maxent', 'mnb' (default: 'svm').
         """
+        self.n = n
         # 1. build the pipeline
-        # WORK HERE!!
-        self._pipeline = pipeline = None
+        n_prev_tags = NPrevTags(n - 1)
+        vect = featureforge.vectorizer.Vectorizer(
+            [word_lower, prev_tags, word_istitle, word_isupper, word_isdigit, n_prev_tags])
+        clf = sklearn.linear_model.LogisticRegression()
+        self._pipeline = Pipeline([
+            ('vect', vect),
+            ('clf', clf)
+        ])
 
         # 2. train it
         print('Training classifier...')
-        X = self.sents_histories(tagged_sents)
-        y = self.sents_tags(tagged_sents)
-        pipeline.fit(list(X), list(y))
+        X = list(self.sents_histories(tagged_sents))
+        y = list(self.sents_tags(tagged_sents))
+        self._pipeline.fit(X, y)
 
         # 3. build known words set
-        # WORK HERE!!
+        self._vocabulary = set()
+        for sent in [list(zip(*tagged_sent))[0] for tagged_sent in tagged_sents]:
+            self._vocabulary = self._vocabulary.union(set(sent))
 
     def sents_histories(self, tagged_sents):
         """
@@ -84,18 +90,25 @@ class MEMM:
 
         sent -- the sentence.
         """
-        # WORK HERE!!
+        tags = []
+        prev = ('<s>', '<s>')
+        for i, w in enumerate(sent):
+            h = History(sent, prev, i)
+            tag = self.tag_history(h)
+            tags.append(tag)
+            prev = (prev + (tag,))[1:]
+        return tags
 
     def tag_history(self, h):
         """Tag a history.
 
         h -- the history.
         """
-        # WORK HERE!!
+        return self._pipeline.predict([h])[0]
 
     def unknown(self, w):
         """Check if a word is unknown for the model.
 
         w -- the word.
         """
-        # WORK HERE!!
+        return w not in self._vocabulary
