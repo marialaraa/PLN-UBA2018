@@ -1,5 +1,4 @@
 import featureforge
-import sklearn
 from featureforge.vectorizer import Vectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import MultinomialNB
@@ -32,8 +31,7 @@ class MEMM:
                     NextWord(word_lower), NextWord(word_isdigit), NextWord(word_istitle), NextWord(word_isupper),]
         vect = featureforge.vectorizer.Vectorizer(features)
 
-
-        self._pipeline = Pipeline([('vect', vect), ('clf', LogisticRegression())])
+        self._pipeline = Pipeline([('vect', vect), ('clf', CLASSIFIERS.get(clf)())])
 
         # 2. train it
         print('Training classifier...')
@@ -43,7 +41,6 @@ class MEMM:
 
         # 3. build known words set
         self._vocabulary = {tok for sent in tagged_sents for (tok, tag) in sent}
-
 
     def sents_histories(self, tagged_sents):
         """
