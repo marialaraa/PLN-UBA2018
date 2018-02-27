@@ -22,7 +22,7 @@ import pickle
 
 from docopt import docopt
 
-from memm import MEMM
+from tagging.memm import MEMM
 from tagging.ancora import SimpleAncoraCorpusReader
 from tagging.baseline import BaselineTagger, BadBaselineTagger
 
