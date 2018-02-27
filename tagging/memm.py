@@ -6,7 +6,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
 
 from tagging.features import (History, word_lower, word_istitle, word_isupper, word_isdigit, prev_tags,
-                              NextWord, PrevWord)
+                              NextWord, PrevWord, NPrevTags)
 
 CLASSIFIERS = {
     'maxent': LogisticRegression,
@@ -26,9 +26,10 @@ class MEMM:
         self._n = n
 
         # 1. build the pipeline
-        features = [word_lower, prev_tags, word_istitle, word_isupper, word_isdigit,
-                    PrevWord(word_lower), PrevWord(word_isdigit), PrevWord(word_istitle), PrevWord(word_isupper),
-                    NextWord(word_lower), NextWord(word_isdigit), NextWord(word_istitle), NextWord(word_isupper),]
+        features = [word_lower, prev_tags, word_istitle, word_isupper, word_isdigit, PrevWord(word_lower),
+                    PrevWord(word_isdigit), PrevWord(word_istitle), PrevWord(word_isupper),
+                    NextWord(word_lower), NextWord(word_isdigit), NextWord(word_istitle),
+                    NextWord(word_isupper), NPrevTags(1), NPrevTags(2), NPrevTags(3)]
         vect = featureforge.vectorizer.Vectorizer(features)
 
         self._pipeline = Pipeline([('vect', vect), ('clf', CLASSIFIERS.get(clf)())])

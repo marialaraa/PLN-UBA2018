@@ -56,24 +56,29 @@ En este ejercicio se implementa un Maximum Entropy Markov Model. Se utilizará
 `Vectorizer` con los features definidos en el ejercicio anterior y como clasificador
 de máxima entropia a `LogisticRegression`.
 
-| n | Precisión total | Precisión para palabras conocidas | Precisión para palabras desconocidas | Clasificador utilizado | Tiempo (minutos:segundos) | Features utilizados |
+| n | Precisión total | Precisión para palabras conocidas | Precisión para palabras desconocidas | Clasificador utilizado | Tiempo de entrenamiento (min:seg) | Tiempo de evaluación (min:seg) | Features utilizados |
 |:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
-| 1 | 91.67%  |  94.98% |  61.72% | LogisticRegression  | 8 min | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit, PrevWord(word_lower), PrevWord(word_istitle), PrevWord(word_isdigit), NextWord(word_lower) |
-| 2 | 91.24%|94.58% |61.07% | LogisticRegression | 9 min |word_lower, prev_tags, word_istitle, word_isupper, word_isdigit, PrevWord(word_lower), PrevWord(word_istitle), PrevWord(word_isdigit), NextWord(word_lower) |
-| 3 | 91.59% | 94.91% | 61.49% | LogisticRegression | 11 min |word_lower, prev_tags, word_istitle, word_isupper, word_isdigit, PrevWord(word_lower), PrevWord(word_istitle), PrevWord(word_isdigit), NextWord(word_lower) |
-| 4 | 91.71% | 94.99% | 61.99%  | LogisticRegression | 12 min |word_lower, prev_tags, word_istitle, word_isupper, word_isdigit, PrevWord(word_lower), PrevWord(word_istitle), PrevWord(word_isdigit), NextWord(word_lower) |
+| 1 | 91.69% | 95.00% | 61.69% | LogisticRegression | 16:00 | 00:55 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit, PrevWord(word_lower), PrevWord(word_istitle), PrevWord(word_isdigit), NextWord(word_lower) |
+| 2 | 91.24% | 94.57% | 61.05% | LogisticRegression | 14:23 | 00:41 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit, PrevWord(word_lower), PrevWord(word_istitle), PrevWord(word_isdigit), NextWord(word_lower), NPrevTags(1) |
+| 3 | 91.42% | 94.67% | 61.98% | LogisticRegression | 19:26 | 00:45 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit, PrevWord(word_lower), PrevWord(word_istitle), PrevWord(word_isdigit), NextWord(word_lower), NPrevTags(1), NPrevTags(2) |
+| 4 | 91.45% | 94.67% | 62.27% | LogisticRegression | 20:00 | 01:05 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit, PrevWord(word_lower), PrevWord(word_istitle), PrevWord(word_isdigit), NextWord(word_lower), NPrevTags(1), NPrevTags(2), NPrevTags(3) |
+| 1 | 87.49% | 93.30% | 34.93% | LogisticRegression | 05:03 | - | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
+| 2 | 89.40% | 93.69% | 50.61% | LogisticRegression | 07:32 | - | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
+| 3 | 89.27% | 94.05% | 45.98% | LogisticRegression | 09:11 | - | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
+| 4 | 89.15% | 94.08% | 44.57% | LogisticRegression | 10:18 | - | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
+| 1 | 84.24% | 91.53% | 18.23% | MultinomialNB | 00:34 | 30:40 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
+| 2 | 79.86% | 85.66% | 27.30% | MultinomialNB | 00:38 | 40:00 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
+| 3 | 79.51% | 85.52% | 25.06% | MultinomialNB | 00:50 | 42:25 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
+| 4 | 77.95% | 83.78% | 25.15% | MultinomialNB | 00:50 | 44:10 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
+| 1 | 89.40% | 95.24% | 36.53% | LinearSVC | 06:43 | 00:38 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
+| 2 | 92.48% | 96.91% | 52.39% | LinearSVC | 04:44 | 00:37 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
+| 3 | 91.89% | 96.81% | 47.41% | LinearSVC | 05:06 | 00:50 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
+| 4 | 91.49% | 96.61% | 45.22% | LinearSVC | 08:09 | 00:57 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
 
-| 1 |84.24% | 91.53% | 18.23% | MultinomialNB | 34 seg | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
-| 2 | 79.86% | 85.66% | 27.30%| MultinomialNB | 38 seg | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
-| 3 | | MultinomialNB | 50 seg |word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
-| 4 | | MultinomialNB | 50 seg |word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
-
-| 1 | 87.49% | 93.30% | 34.93% | LogisticRegression | 05:03 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
-| 2 | 89.40% | 93.69% | 50.61% | LogisticRegression | 07:32 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit, PrevWord(word_lower), PrevWord(word_istitle), PrevWord(word_isdigit), NextWord(word_lower) |
-| 3 | 89.27% | 94.05% | 45.98% | LogisticRegression | 09:11 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit, PrevWord(word_lower), PrevWord(word_istitle), PrevWord(word_isdigit), NextWord(word_lower) |
-| 4 | 89.15% | 94.08% | 44.57% | LogisticRegression | 10:18 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit, PrevWord(word_lower), PrevWord(word_istitle), PrevWord(word_isdigit), NextWord(word_lower) |
-
-| 1 | 89.40% | 95.24% | 36.53% | LinearSVC | 06:43 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
-| 2 | 92.48% | 96.91% | 52.39% | LinearSVC | 04:44 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
-| 3 | 91.89% | 96.81% | 47.41% | LinearSVC | 05:06 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
-| 4 | 91.49% | 96.61% | 45.22% | LinearSVC | 08:09 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
+Quiero destacar que muchos de los entrenamientos y evaluaciones se ejecutaron
+en paralelo, por lo que temporalmente no se podrían comparar. Hice esto
+ya que para algunos clasificadores el tiempo de entrenamiento o evaluación
+es muy alto. En el caso del clasificador de regresión logística la etapa
+de entrenamiento requiere mucho tiempo, sobre todo para corpus grandes.
+Por otro lado, en el caso del clasificador multinomial Naive Bayes requiere
+de mucho tiempo en la etapa de evaluación.

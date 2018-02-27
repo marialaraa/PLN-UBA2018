@@ -9,6 +9,8 @@ Options:
   -i <file>     Tagging model file.
   -h --help     Show this screen.
 """
+import datetime
+
 from docopt import docopt
 import pickle
 import sys
@@ -27,6 +29,7 @@ def progress(msg, width=None):
 
 if __name__ == '__main__':
     opts = docopt(__doc__)
+    start = datetime.datetime.now()
 
     # load the model
     filename = opts['-i']
@@ -97,7 +100,7 @@ if __name__ == '__main__':
 
         # select most frequent tags
         sorted_error_count = sorted(error_count.keys(),
-                                  key=lambda t: -sum(error_count[t].values()))
+                                    key=lambda t: -sum(error_count[t].values()))
         entries = sorted_error_count[:10]
 
         # print table header
@@ -116,3 +119,5 @@ if __name__ == '__main__':
                 else:
                     print('-\t'.format(acc * 100), end='')
             print('')
+
+    print(datetime.datetime.now() - start)
