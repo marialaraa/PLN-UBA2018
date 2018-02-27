@@ -9,10 +9,10 @@ Options:
   -f --final    Use final test set instead of development.
   -h --help     Show this screen.
 """
-from docopt import docopt
 import pickle
-from pprint import pprint
 from collections import defaultdict
+
+from docopt import docopt
 
 from sentiment.evaluator import Evaluator
 from sentiment.tass import InterTASSReader

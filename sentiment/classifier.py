@@ -4,7 +4,6 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import LinearSVC
 from sklearn.linear_model import LogisticRegression
 
-
 classifiers = {
     'maxent': LogisticRegression,
     'mnb': MultinomialNB,
@@ -13,7 +12,6 @@ classifiers = {
 
 
 class SentimentClassifier(object):
-
     def __init__(self, clf='svm'):
         """
         clf -- classifying model, one of 'svm', 'maxent', 'mnb' (default: 'svm').

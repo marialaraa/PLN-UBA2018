@@ -16,11 +16,10 @@ Options:
 """
 from docopt import docopt
 
-from sentiment.tass import InterTASSReader, GeneralTASSReader
 from sentiment.baselines import MostFrequent
 from sentiment.classifier import SentimentClassifier
 from sentiment.evaluator import Evaluator
-
+from sentiment.tass import InterTASSReader, GeneralTASSReader
 
 models = {
     'basemf': MostFrequent,

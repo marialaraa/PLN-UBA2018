@@ -12,7 +12,6 @@ def f1(prec, rec):
 
 
 class Evaluator(object):
-
     def evaluate(self, y_true, y_pred):
         self._y_true = y_true
         self._y_pred = y_pred

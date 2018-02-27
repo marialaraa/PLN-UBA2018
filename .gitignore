@@ -105,6 +105,7 @@ venv.bak/
 .mypy_cache/
 
 tagging/corpus/*
+sentiment/corpus/*
 models/*.pkl
 .idea/
 languagemodeling/.idea/
@@ -112,3 +113,4 @@ languagemodeling/corpus/
 languagemodeling/models/
 tagging/corpus/
 tagging/models/
+sentiment/corpus/

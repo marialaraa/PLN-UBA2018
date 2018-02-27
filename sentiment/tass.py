@@ -2,7 +2,6 @@ from xml.etree import ElementTree
 
 
 class GeneralTASSReader:
-
     def __init__(self, filename, res_filename=None, simple=False):
         self.filename = filename
         self.res_filename = res_filename
@@ -61,6 +60,7 @@ class GeneralTASSReader:
 
     def y(self):
         """Iterator over the tweet polarities."""
+
         def smap(sentiment):
             return self.smapdict.get(sentiment, sentiment)
 
@@ -82,7 +82,6 @@ class GeneralTASSReader:
 
 
 class InterTASSReader:
-
     def __init__(self, filename, res_filename=None):
         self.filename = filename
         self.res_filename = res_filename
