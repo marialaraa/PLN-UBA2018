@@ -56,3 +56,24 @@ En este ejercicio se implementa un Maximum Entropy Markov Model. Se utilizará
 `Vectorizer` con los features definidos en el ejercicio anterior y como clasificador
 de máxima entropia a `LogisticRegression`.
 
+| n | Precisión total | Precisión para palabras conocidas | Precisión para palabras desconocidas | Clasificador utilizado | Tiempo (minutos:segundos) | Features utilizados |
+|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+| 1 | 91.67%  |  94.98% |  61.72% | LogisticRegression  | 8 min | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit, PrevWord(word_lower), PrevWord(word_istitle), PrevWord(word_isdigit), NextWord(word_lower) |
+| 2 | 91.24%|94.58% |61.07% | LogisticRegression | 9 min |word_lower, prev_tags, word_istitle, word_isupper, word_isdigit, PrevWord(word_lower), PrevWord(word_istitle), PrevWord(word_isdigit), NextWord(word_lower) |
+| 3 | 91.59% | 94.91% | 61.49% | LogisticRegression | 11 min |word_lower, prev_tags, word_istitle, word_isupper, word_isdigit, PrevWord(word_lower), PrevWord(word_istitle), PrevWord(word_isdigit), NextWord(word_lower) |
+| 4 | 91.71% | 94.99% | 61.99%  | LogisticRegression | 12 min |word_lower, prev_tags, word_istitle, word_isupper, word_isdigit, PrevWord(word_lower), PrevWord(word_istitle), PrevWord(word_isdigit), NextWord(word_lower) |
+
+| 1 |84.24% | 91.53% | 18.23% | MultinomialNB | 34 seg | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
+| 2 | 79.86% | 85.66% | 27.30%| MultinomialNB | 38 seg | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
+| 3 | | MultinomialNB | 50 seg |word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
+| 4 | | MultinomialNB | 50 seg |word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
+
+| 1 | 87.49% | 93.30% | 34.93% | LogisticRegression | 05:03 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
+| 2 | 89.40% | 93.69% | 50.61% | LogisticRegression | 07:32 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit, PrevWord(word_lower), PrevWord(word_istitle), PrevWord(word_isdigit), NextWord(word_lower) |
+| 3 | 89.27% | 94.05% | 45.98% | LogisticRegression | 09:11 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit, PrevWord(word_lower), PrevWord(word_istitle), PrevWord(word_isdigit), NextWord(word_lower) |
+| 4 | 89.15% | 94.08% | 44.57% | LogisticRegression | 10:18 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit, PrevWord(word_lower), PrevWord(word_istitle), PrevWord(word_isdigit), NextWord(word_lower) |
+
+| 1 | 89.40% | 95.24% | 36.53% | LinearSVC | 06:43 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
+| 2 | 92.48% | 96.91% | 52.39% | LinearSVC | 04:44 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
+| 3 | 91.89% | 96.81% | 47.41% | LinearSVC | 05:06 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
+| 4 | 91.49% | 96.61% | 45.22% | LinearSVC | 08:09 | word_lower, prev_tags, word_istitle, word_isupper, word_isdigit |
