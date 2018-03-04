@@ -31,14 +31,14 @@ if __name__ == '__main__':
     opts = docopt(__doc__)
 
     # load training corpus
-    reader1 = InterTASSReader('TASS/InterTASS/tw_faces4tassTrain1000rc.xml')
+    reader1 = InterTASSReader('../corpus/TASS/InterTASS/tw_faces4tassTrain1000rc.xml')
     X1, y1 = list(reader1.X()), list(reader1.y())
-    reader2 = GeneralTASSReader('TASS/GeneralTASS/general-tweets-train-tagged.xml', simple=True)
+    reader2 = GeneralTASSReader('../corpus/TASS/GeneralTASS/general-tweets-train-tagged.xml', simple=True)
     X2, y2 = list(reader2.X()), list(reader2.y())
     X, y = X1 + X2, y1 + y2
 
     # load development corpus (for evaluation)
-    reader = InterTASSReader('TASS/InterTASS/TASS2017_T1_development.xml')
+    reader = InterTASSReader('../corpus/TASS/InterTASS/TASS2017_T1_development.xml')
     Xdev, y_true = list(reader.X()), list(reader.y())
 
     # create model and evaluator instances
