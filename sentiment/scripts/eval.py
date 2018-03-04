@@ -28,7 +28,7 @@ if __name__ == '__main__':
 
     # load corpus
     if not opts['--final']:
-        reader = InterTASSReader('TASS/InterTASS/TASS2017_T1_development.xml')
+        reader = InterTASSReader('../corpus/TASS/InterTASS/TASS2017_T1_development.xml')
     else:
         reader = InterTASSReader(
             'TASS/InterTASS/TASS2017_T1_test.xml',
