@@ -106,6 +106,7 @@ venv.bak/
 
 tagging/corpus/*
 sentiment/corpus/*
+sentiment/models/*
 models/*.pkl
 .idea/
 languagemodeling/.idea/
