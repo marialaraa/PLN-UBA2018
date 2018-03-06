@@ -34,7 +34,7 @@ def custom_tokenizer(sentence):
 def clean_tweet_text(sentences):
     mentions = r'(?:@[^\s]+\s)'  # Eliminar menciones de usuarios.
     urls = r'(?:https?\://t.co/[\w]+\s)'  # Eliminar URLs.
-    duplicated_vocals = r'([a,e,i,o,u])\1+\s'  # Contraer repeticiones de 3 o más vocales.
+    duplicated_vocals = r'([a,e,i,o,u])\1{3,}'  # Contraer repeticiones de 3 o más vocales.
     return [re.sub(duplicated_vocals, r'\1', re.sub(urls, '', re.sub(mentions, '', sentence))) for sentence in
             sentences]
 

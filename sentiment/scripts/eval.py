@@ -31,8 +31,8 @@ if __name__ == '__main__':
         reader = InterTASSReader('../corpus/TASS/InterTASS/TASS2017_T1_development.xml')
     else:
         reader = InterTASSReader(
-            'TASS/InterTASS/TASS2017_T1_test.xml',
-            'TASS/InterTASS/TASS2017_T1_test_res.qrel')
+            '../corpus/TASS/InterTASS/TASS2017_T1_test.xml',
+            '../corpus/TASS/InterTASS/TASS2017_T1_test_res.qrel')
     X, y_true = list(reader.X()), list(reader.y())
 
     # classify
